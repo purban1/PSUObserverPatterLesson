@@ -1,19 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package psuobserverpatternlesson;
 
-/**
- *
- * @author production
- */
 public class Startup {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        WeatherData weatherData = new WeatherData();
+
+        CurrentConditionsDisplay currentDisplay =
+                new CurrentConditionsDisplay(weatherData);
+        StatisticsDisplay statisticsDisplay = 
+                new StatisticsDisplay(weatherData);
+        ForecastDisplay forecastDisplay = 
+                new ForecastDisplay(weatherData);
+        
+        weatherData.setMeasurements(80, 65, 30.4f);
+        System.out.println("");
+        weatherData.setMeasurements(82, 70, 29.2f);
     }
 }

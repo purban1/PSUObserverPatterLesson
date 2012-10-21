@@ -14,42 +14,41 @@ public class WeatherData implements Subject {
         observers = new ArrayList();
     }
 
-    @Override
-    public void registerObserver(Observer o) {
-        // verify the input
-        this.observers.add(0);
+    public void setMeasurements(float temperature, float humidity, float pressure) {
+        // verify the inputs
+        setTemperature(temperature);
+        setHumidity(humidity);
+        setPressure(pressure);
+        measurementChanged();
     }
 
     @Override
-    public void removeObserver(Observer o) {
+    public void registerObserver(Observer obs) {
         // verify the input
-        int i = observers.indexOf(o);
+        this.observers.add(obs);
+    }
+
+    @Override
+    public void removeObserver(Observer obs) {
+        // verify the input
+        int i = observers.indexOf(obs);
         if (i >= 0) {
             observers.remove(i);
         }
     }
 
+    private void measurementChanged() {
+        notifyObserver();
+    }
+
     @Override
     public void notifyObserver() {
-        // verify the input
-        for (int i = 0; i < this.observers.size(); i++) 
-        {
-            Observer observer = (Observer)observers.get(i);
+        for (int i = 0; i < this.observers.size(); i++) {
+            Observer observer = (Observer) observers.get(i);
             observer.update(temperature, humidity, pressure);
         }
     }
-    
-    private void measurementChanged(){
-        notifyObserver();
-    }
-    
-    public void setMeasurements(float temperature, float humidity, float pressure){
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.pressure = pressure;
-        measurementChanged();
-    }
-    
+
     /**
      * @return the observers
      */
@@ -75,7 +74,7 @@ public class WeatherData implements Subject {
     /**
      * @param temperature the temperature to set
      */
-    public void setTemperature(float temperature) {
+    private void setTemperature(float temperature) {
         // verify the input
         this.temperature = temperature;
     }
@@ -90,7 +89,7 @@ public class WeatherData implements Subject {
     /**
      * @param humidity the humidity to set
      */
-    public void setHumidity(float humidity) {
+    private void setHumidity(float humidity) {
         // verify the input
         this.humidity = humidity;
     }
@@ -105,7 +104,7 @@ public class WeatherData implements Subject {
     /**
      * @param pressure the pressure to set
      */
-    public void setPressure(float pressure) {
+    private void setPressure(float pressure) {
         // verify the input
         this.pressure = pressure;
     }
